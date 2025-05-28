@@ -146,13 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         _formKey.currentState!.save();
                         bool success = await loginUser(email, password);
 
-                        ScaffoldMessenger.of(context).showSnackBar;{
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(success
                               ? 'Login successful!'
                               : 'Login failed. Try again.'),
-                          );
-                        }
+                          )
+                        );
 
                         if (success){
 
