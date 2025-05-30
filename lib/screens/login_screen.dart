@@ -1,8 +1,9 @@
-import 'dart:convert';
+// import 'dart:convert';
 
+import 'package:application/screens/Views/home.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,37 +12,41 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+var emailController = TextEditingController();
+var passwordController = TextEditingController();
+
+
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
 
-  Future<bool> loginUser(String email, String password) async {
-    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
+  // Future<bool> loginUser(String email, String password) async {
+  //   final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email' : email,
-          'password' : password,
-          })
-        );
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode({
+  //         'email' : email,
+  //         'password' : password,
+  //         })
+  //       );
 
-        if (response.statusCode == 201){
-          print('Response: ${response.body}');
-          return true;
-        } else {
-          print('Failed: ${response.statusCode}');
-          return false;
-        }
-    } catch (e) {
-      print('Error: $e');
-      return false;
-    }
-  }
+  //       if (response.statusCode == 201){
+  //         print('Response: ${response.body}');
+  //         return true;
+  //       } else {
+  //         print('Failed: ${response.statusCode}');
+  //         return false;
+  //       }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     return false;
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
-                    hintText: 'example@example.com',
+                    // hintText: 'example@example.com',
                     filled: true,
                     fillColor: Color(0xFFECF1FF),
                     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -96,9 +102,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 12),
 
                 TextFormField(
+                  controller: passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    hintText: '*************',
+                    // hintText: '*************',
                     filled: true,
                     fillColor: Color(0xFFECF1FF),
                     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -141,23 +148,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 Center(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()){
-                        _formKey.currentState!.save();
-                        bool success = await loginUser(email, password);
+                    onPressed: () {
+                      login();
+                      // loginUser(emailController.text.toString(), passwordController.text.toString());
+                      // if (_formKey.currentState!.validate()){
+                      //   _formKey.currentState!.save();
+                      //   bool success = await loginUser(email, password);
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(success
-                              ? 'Login successful!'
-                              : 'Login failed. Try again.'),
-                          )
-                        );
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(
+                      //       content: Text(success
+                      //         ? 'Login successful!'
+                      //         : 'Login failed. Try again.'),
+                      //     )
+                      //   );
 
-                        if (success){
+                      //   if (success){
 
-                        }
-                      }
+                      //   }
+                      // }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: 
@@ -199,4 +208,22 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Future<void> login() async{
+    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+      var response =await http.post(Uri.parse('http://192.168.33.1:8000/api/login'), body: ({
+        'email': emailController.text,
+        'password': passwordController.text
+      }));
+      if(response.statusCode == 200){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Email & Password donot match with database')));
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter email and password')));
+    }
+
+  }
+
 }
