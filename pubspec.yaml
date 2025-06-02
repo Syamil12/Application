@@ -39,6 +39,8 @@ dependencies:
 
   http: ^1.4.0
 
+  flutter_feather_icons: ^2.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
