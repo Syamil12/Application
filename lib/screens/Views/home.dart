@@ -1,3 +1,4 @@
+import 'package:application/screens/Views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -12,38 +13,23 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
+  final List<Widget> _pages = const [
+    HomeScreen(),
+    ScheduleScreen(),
+    TaskScreen(),
+    ProfileScreen()
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Hello,'),
-                  Image.asset('assets/images/Frame.png'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-            AspectRatio(
-              aspectRatio: 327 / 199,
-              child: Container(
-                height: 327,
-                margin: EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Color(0xFF4894FE),
-                ),
-              ),
-            ),
-          ],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
         ),
+        child: _pages[_selectedIndex],
       ),
 
       bottomNavigationBar: 
@@ -117,5 +103,34 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+}
+
+class ScheduleScreen extends StatelessWidget {
+  const ScheduleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Schedule'),
+    );
+  }
+}
+
+class TaskScreen extends StatelessWidget {
+  const TaskScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
