@@ -1,6 +1,7 @@
 // import 'dart:convert';
 
 import 'package:application/screens/Views/home.dart';
+import 'package:application/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // import 'package:http/http.dart' as http;
@@ -137,13 +138,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   onSaved: (value) => password = value!,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: (){
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: TextButton(
+                //     onPressed: (){
 
-                  }, child: Text('Forgot Password', style: TextStyle(color: Color(0xFF4894FE)),)),
-                ),
+                //   }, child: Text('Forgot Password', style: TextStyle(color: Color(0xFF4894FE)),)),
+                // ),
                 const SizedBox(height: 37),
 
                 Center(
@@ -190,7 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text("Don't have an account? "),
                       GestureDetector(
                         onTap: () {
-                          
+                          Navigator.push(context, 
+                          MaterialPageRoute(builder: (context) => SignUpScreen()),);
                         },
                         child: Text(
                           'Sign Up',

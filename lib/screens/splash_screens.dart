@@ -1,4 +1,5 @@
 import 'package:application/screens/login_screen.dart';
+import 'package:application/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -38,7 +39,10 @@ class SplashScreens extends StatelessWidget {
                   SizedBox(
                     height: 45.0,
                     width: 207.0,
-                    child: ElevatedButton(onPressed: () {},
+                    child: ElevatedButton(onPressed: () {
+                      Navigator.push(context, 
+                      MaterialPageRoute(builder: (context) => SignUpScreen()),);
+                    },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF4894FE),
                     foregroundColor: Colors.white,
