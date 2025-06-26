@@ -1,4 +1,6 @@
 import 'package:application/screens/Views/home_screen.dart';
+import 'package:application/screens/Views/profile_screen.dart';
+import 'package:application/screens/Views/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -15,7 +17,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _pages = const [
     HomeScreen(),
-    ScheduleScreen(),
+    RegisterScreen(),
     TaskScreen(),
     ProfileScreen()
   ];
@@ -35,7 +37,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: 
       Container(
         height: 80,
-        decoration: const BoxDecoration(color: Colors.white),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(4, (index){
@@ -48,8 +50,8 @@ class _HomeState extends State<Home> {
                 label = 'Home';
                 break;
               case 1:
-                icon = FeatherIcons.calendar;
-                label = 'Schedule';
+                icon = Icons.person_add_alt_1;
+                label = 'Register';
                 break;
               case 2:
                 icon = FeatherIcons.list;
@@ -112,22 +114,12 @@ class ScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Schedule'),
     );
   }
 }
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

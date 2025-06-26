@@ -1,9 +1,12 @@
 // import 'dart:convert';
 
+import 'dart:convert';
+
 import 'package:application/screens/Views/home.dart';
 import 'package:application/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -52,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Padding(padding:const EdgeInsets.symmetric(horizontal: 30, vertical: 106),
           child: Form(
             key: _formKey,
@@ -218,6 +221,12 @@ class _LoginScreenState extends State<LoginScreen> {
         'password': passwordController.text
       }));
       if(response.statusCode == 200){
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_token', token);
+
         Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
       }else{
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Email & Password donot match with database')));
